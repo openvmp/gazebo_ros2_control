@@ -601,7 +601,7 @@ hardware_interface::return_type GazeboSystem::write(
         if (velocity != 0.0) {
           this->dataPtr->sim_joints_[j]->SetParam("fmax", 0, 2000.0);
         } else {
-          this->dataPtr->sim_joints_[j]->SetParam("fmax", 0, 0);
+          this->dataPtr->sim_joints_[j]->SetParam("fmax", 0, 0.0);
         }
         this->dataPtr->sim_joints_[j]->SetParam("vel", 0, velocity);
       }
