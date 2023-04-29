@@ -597,7 +597,13 @@ hardware_interface::return_type GazeboSystem::write(
         this->dataPtr->sim_joints_[j]->SetPosition(0, this->dataPtr->joint_position_cmd_[j], true);
       }
       if (this->dataPtr->joint_control_methods_[j] & VELOCITY) {
-        this->dataPtr->sim_joints_[j]->SetVelocity(0, this->dataPtr->joint_velocity_cmd_[j]);
+        auto velocity = this->dataPtr->joint_velocity_cmd_[j];
+        if (velocity != 0.0) {
+          this->dataPtr->sim_joints_[j]->SetParam("fmax", 0, 2000.0);
+        } else {
+          this->dataPtr->sim_joints_[j]->SetParam("fmax", 0, 0);
+        }
+        this->dataPtr->sim_joints_[j]->SetParam("vel", 0, velocity);
       }
       if (this->dataPtr->joint_control_methods_[j] & EFFORT) {
         this->dataPtr->sim_joints_[j]->SetForce(0, this->dataPtr->joint_effort_cmd_[j]);
